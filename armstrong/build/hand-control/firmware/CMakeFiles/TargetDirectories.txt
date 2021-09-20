@@ -1,0 +1,7 @@
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/rebuild_cache.dir
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/edit_cache.dir
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/upload.dir
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/hello-upload.dir
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/hello-size.dir
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/hello.dir
+/home/arwin/Documents/git/armstrong/build/hand-control/firmware/CMakeFiles/uno_CORE.dir

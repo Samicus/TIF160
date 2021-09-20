@@ -1,0 +1,8 @@
+prefix=/home/arwin/Documents/git/armstrong/install
+
+Name: hand-control
+Description: Description of hand-control
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
