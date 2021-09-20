@@ -1,31 +1,28 @@
-/*
- * rosserial Publisher Example
- * Prints "hello world!"
- */
-
-// Use the following line if you have a Leonardo or MKR1000
-//#define USE_USBCON
-
+#include <Servo.h> 
 #include <ros.h>
-#include <std_msgs/String.h>
+#include <std_msgs/Float64MultiArray.h>
 
-ros::NodeHandle nh;
+ros::NodeHandle  nh;
 
-std_msgs::String str_msg;
-ros::Publisher chatter("chatter", &str_msg);
+Servo servo;
 
-char hello[13] = "hello world!";
-
-void setup()
-{
-  nh.initNode();
-  nh.advertise(chatter);
+void servo_cb( const std_msgs::Float64MultiArray& cmd_msg){
+  servo.write(180 - cmd_msg.data[2]); //set servo angle, should be from 0-180   
 }
 
-void loop()
-{
-  str_msg.data = hello;
-  chatter.publish( &str_msg );
+
+ros::Subscriber<std_msgs::Float64MultiArray> sub("hand_tracking", servo_cb);
+
+void setup(){
+  pinMode(13, OUTPUT);
+
+  nh.initNode();
+  nh.subscribe(sub);
+  
+  servo.attach(9); //attach it to pin 9
+}
+
+void loop(){
   nh.spinOnce();
-  delay(1000);
+  delay(1);
 }

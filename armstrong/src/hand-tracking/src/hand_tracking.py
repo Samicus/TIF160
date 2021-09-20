@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 from std_msgs.msg import Float64MultiArray
 import cv2
@@ -16,7 +16,7 @@ class handDetector():
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
-        
+
     def findHands(self,img, draw = True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(imgRGB)
@@ -40,7 +40,7 @@ class handDetector():
                 if draw:
                     cv2.circle(img, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
         return lmlist
-    
+
 def get_distance(tip_x, tip_y, ref_x, ref_y):
     if (tip_x < ref_x) or (tip_y < ref_y):
         dist = math.sqrt((tip_x-ref_x)**2 + (tip_y-ref_y)**2)
@@ -83,12 +83,14 @@ def get_fingers_output(lmlist):
 
     return thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle
 
-    
+
 def main():
     #init node and publisher
     pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=10)
     rospy.init_node('hand-tracking', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(30) # 30hz
+
+    message_to_publish = Float64MultiArray()
 
     pTime = 0
     cTime = 0
@@ -101,10 +103,10 @@ def main():
         lmlist = detector.findPosition(img)
         if len(lmlist) != 0:
             thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle = get_fingers_output(lmlist)
-            print(f"Thumb angle: {thumb_angle}\nIndex angle: {index_angle}\nMiddle angle: {middle_angle}\nRing angle: {ring_angle}\nPinky angle: {pinky_angle}\n")
-        message_to_publish = [thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle]
-        pub.publish(message_to_publish)
-        rate.sleep()
+            #print(f"Thumb angle: {thumb_angle}\nIndex angle: {index_angle}\nMiddle angle: {middle_angle}\nRing angle: {ring_angle}\nPinky angle: {pinky_angle}\n")
+            message_to_publish.data = [thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle]
+            pub.publish(message_to_publish)
+            rate.sleep()
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)
