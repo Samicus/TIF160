@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
+import math
 
 class handDetector():
     def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
@@ -36,7 +37,50 @@ class handDetector():
                 if draw:
                     cv2.circle(img, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
         return lmlist
+    
+def get_distance(tip_x, tip_y, ref_x, ref_y):
+    if (tip_x < ref_x) or (tip_y < ref_y):
+        dist = math.sqrt((tip_x-ref_x)**2 + (tip_y-ref_y)**2)
+    else:
+        dist = 0
+    return dist
 
+
+def get_fingers_output(lmlist):
+
+    thumb_tip_x = lmlist[4][1]
+    thumb_tip_y = lmlist[4][2]
+    thumb_ref_x = lmlist[1][1]
+    thumb_ref_y = lmlist[1][2]
+    thumb_angle = get_distance(thumb_tip_x, thumb_tip_y, thumb_ref_x, thumb_ref_y) 
+
+    index_tip_x = lmlist[8][1]
+    index_tip_y = lmlist[8][2]
+    index_ref_x = lmlist[5][1]
+    index_ref_y = lmlist[5][2]
+    index_angle = get_distance(index_tip_x, index_tip_y, index_ref_x, index_ref_y)
+
+    middle_tip_x = lmlist[12][1]
+    middle_tip_y = lmlist[12][2]
+    middle_ref_x = lmlist[9][1]
+    middle_ref_y = lmlist[9][2]
+    middle_angle = get_distance(middle_tip_x, middle_tip_y, middle_ref_x, middle_ref_y)
+
+    ring_tip_x = lmlist[16][1]
+    ring_tip_y = lmlist[16][2]
+    ring_ref_x = lmlist[13][1]
+    ring_ref_y = lmlist[13][2]
+    ring_angle = get_distance(ring_tip_x, ring_tip_y, ring_ref_x, ring_ref_y)
+
+    pinky_tip_x = lmlist[20][1]
+    pinky_tip_y = lmlist[20][2]
+    pinky_ref_x = lmlist[17][1]
+    pinky_ref_y = lmlist[17][2]
+    pinky_angle = get_distance(pinky_tip_x, pinky_tip_y, pinky_ref_x, pinky_ref_y)
+
+    return thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle
+
+    
 def main():
     pTime = 0
     cTime = 0
@@ -48,7 +92,8 @@ def main():
         img = detector.findHands(img)
         lmlist = detector.findPosition(img)
         if len(lmlist) != 0:
-            print(abs(lmlist[8][1]-lmlist[5][1]))
+            thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle = get_fingers_output(lmlist)
+            print(f"Thumb angle: {thumb_angle}\nIndex angle: {index_angle}\nMiddle angle: {middle_angle}\nRing angle: {ring_angle}\nPinky angle: {pinky_angle}\n")
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)
