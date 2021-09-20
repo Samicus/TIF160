@@ -1,4 +1,4 @@
-prefix=/home/arwin/Documents/git/armstrong/install
+prefix=/home/arwin/Documents/git/TIF160/armstrong/install
 
 Name: rosserial_embeddedlinux
 Description: Description of rosserial_embeddedlinux

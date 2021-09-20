@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/share/roseus/ros/rosserial_mbed/manifest.l"
-  "/home/arwin/Documents/git/armstrong/devel/share/roseus/ros/rosserial_mbed/msg/Adc.l"
-  "/home/arwin/Documents/git/armstrong/devel/share/roseus/ros/rosserial_mbed/srv/Test.l"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/roseus/ros/rosserial_mbed/manifest.l"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/roseus/ros/rosserial_mbed/msg/Adc.l"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/roseus/ros/rosserial_mbed/srv/Test.l"
   "CMakeFiles/rosserial_mbed_generate_messages_eus"
 )
 

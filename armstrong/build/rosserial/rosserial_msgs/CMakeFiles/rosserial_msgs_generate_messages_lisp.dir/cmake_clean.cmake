@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/share/common-lisp/ros/rosserial_msgs/msg/Log.lisp"
-  "/home/arwin/Documents/git/armstrong/devel/share/common-lisp/ros/rosserial_msgs/msg/TopicInfo.lisp"
-  "/home/arwin/Documents/git/armstrong/devel/share/common-lisp/ros/rosserial_msgs/srv/RequestParam.lisp"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/common-lisp/ros/rosserial_msgs/msg/Log.lisp"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/common-lisp/ros/rosserial_msgs/msg/TopicInfo.lisp"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/common-lisp/ros/rosserial_msgs/srv/RequestParam.lisp"
   "CMakeFiles/rosserial_msgs_generate_messages_lisp"
 )
 

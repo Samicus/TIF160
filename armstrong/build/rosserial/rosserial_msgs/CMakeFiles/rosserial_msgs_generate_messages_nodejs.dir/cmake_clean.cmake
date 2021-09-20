@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/share/gennodejs/ros/rosserial_msgs/msg/Log.js"
-  "/home/arwin/Documents/git/armstrong/devel/share/gennodejs/ros/rosserial_msgs/msg/TopicInfo.js"
-  "/home/arwin/Documents/git/armstrong/devel/share/gennodejs/ros/rosserial_msgs/srv/RequestParam.js"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/gennodejs/ros/rosserial_msgs/msg/Log.js"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/gennodejs/ros/rosserial_msgs/msg/TopicInfo.js"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/share/gennodejs/ros/rosserial_msgs/srv/RequestParam.js"
   "CMakeFiles/rosserial_msgs_generate_messages_nodejs"
 )
 

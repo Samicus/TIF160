@@ -6,5 +6,5 @@ CXX_FLAGS =   -DGTEST_HAS_PTHREAD=1
 
 CXX_DEFINES = -DROS_BUILD_SHARED_LIBS=1
 
-CXX_INCLUDES = -I/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_client/src/ros_lib -I/home/arwin/Documents/git/armstrong/devel/include -I/opt/ros/noetic/include -isystem /usr/src/googletest/googletest/include -isystem /usr/src/googletest/googletest 
+CXX_INCLUDES = -I/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_client/src/ros_lib -I/home/arwin/Documents/git/TIF160/armstrong/devel/include -I/opt/ros/noetic/include -isystem /usr/src/googletest/googletest/include -isystem /usr/src/googletest/googletest 
 

@@ -6,5 +6,5 @@ CXX_FLAGS =   -DGTEST_HAS_PTHREAD=1
 
 CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"rosserial_test\"
 
-CXX_INCLUDES = -I/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_test/include -I/home/arwin/Documents/git/armstrong/build/rosserial/rosserial_test/include -I/home/arwin/Documents/git/armstrong/devel/include -I/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -isystem /usr/src/googletest/googletest/include -isystem /usr/src/googletest/googletest 
+CXX_INCLUDES = -I/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_test/include -I/home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial_test/include -I/home/arwin/Documents/git/TIF160/armstrong/devel/include -I/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -isystem /usr/src/googletest/googletest/include -isystem /usr/src/googletest/googletest 
 

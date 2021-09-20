@@ -1,8 +1,8 @@
-# Install script for directory: /home/arwin/Documents/git/armstrong/src/hand-control
+# Install script for directory: /home/arwin/Documents/git/TIF160/armstrong/src/hand-control
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/arwin/Documents/git/armstrong/install")
+  set(CMAKE_INSTALL_PREFIX "/home/arwin/Documents/git/TIF160/armstrong/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,32 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/arwin/Documents/git/armstrong/build/hand-control/catkin_generated/installspace/hand-control.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/arwin/Documents/git/TIF160/armstrong/build/hand-control/catkin_generated/installspace/hand-control.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hand-control/cmake" TYPE FILE FILES
-    "/home/arwin/Documents/git/armstrong/build/hand-control/catkin_generated/installspace/hand-controlConfig.cmake"
-    "/home/arwin/Documents/git/armstrong/build/hand-control/catkin_generated/installspace/hand-controlConfig-version.cmake"
+    "/home/arwin/Documents/git/TIF160/armstrong/build/hand-control/catkin_generated/installspace/hand-controlConfig.cmake"
+    "/home/arwin/Documents/git/TIF160/armstrong/build/hand-control/catkin_generated/installspace/hand-controlConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hand-control" TYPE FILE FILES "/home/arwin/Documents/git/armstrong/src/hand-control/package.xml")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/arwin/Documents/git/armstrong/build/hand-control/catkin_generated/installspace/hand-control.pc")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hand-control/cmake" TYPE FILE FILES
-    "/home/arwin/Documents/git/armstrong/build/hand-control/catkin_generated/installspace/hand-controlConfig.cmake"
-    "/home/arwin/Documents/git/armstrong/build/hand-control/catkin_generated/installspace/hand-controlConfig-version.cmake"
-    )
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hand-control" TYPE FILE FILES "/home/arwin/Documents/git/armstrong/src/hand-control/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hand-control" TYPE FILE FILES "/home/arwin/Documents/git/TIF160/armstrong/src/hand-control/package.xml")
 endif()
 

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/lib/rosserial_server/serial_node"
-  "/home/arwin/Documents/git/armstrong/devel/lib/rosserial_server/serial_node.pdb"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/rosserial_server/serial_node"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/rosserial_server/serial_node.pdb"
   "CMakeFiles/rosserial_server_serial_node.dir/src/serial_node.cpp.o"
 )
 

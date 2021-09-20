@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: /home/arwin/Documents/git/armstrong/src
-# Build directory: /home/arwin/Documents/git/armstrong/build
+# Source directory: /home/arwin/Documents/git/TIF160/armstrong/src
+# Build directory: /home/arwin/Documents/git/TIF160/armstrong/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
@@ -18,6 +18,7 @@ subdirs("rosserial/rosserial_xbee")
 subdirs("rosserial/rosserial_client")
 subdirs("hand-tracking")
 subdirs("rosserial/rosserial_server")
+subdirs("hand-control")
 subdirs("rosserial/rosserial_embeddedlinux")
 subdirs("rosserial/rosserial_test")
 subdirs("rosserial/rosserial_windows")

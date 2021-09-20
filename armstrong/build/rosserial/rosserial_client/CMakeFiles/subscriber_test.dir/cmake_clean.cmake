@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/lib/rosserial_client/subscriber_test"
-  "/home/arwin/Documents/git/armstrong/devel/lib/rosserial_client/subscriber_test.pdb"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/rosserial_client/subscriber_test"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/rosserial_client/subscriber_test.pdb"
   "CMakeFiles/subscriber_test.dir/test/subscriber_test.cpp.o"
 )
 

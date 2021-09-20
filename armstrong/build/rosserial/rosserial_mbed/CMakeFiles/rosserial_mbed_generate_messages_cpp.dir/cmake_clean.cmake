@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/include/rosserial_mbed/Adc.h"
-  "/home/arwin/Documents/git/armstrong/devel/include/rosserial_mbed/Test.h"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/include/rosserial_mbed/Adc.h"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/include/rosserial_mbed/Test.h"
   "CMakeFiles/rosserial_mbed_generate_messages_cpp"
 )
 

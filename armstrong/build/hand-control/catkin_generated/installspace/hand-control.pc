@@ -1,4 +1,4 @@
-prefix=/home/arwin/Documents/git/armstrong/install
+prefix=/home/arwin/Documents/git/TIF160/armstrong/install
 
 Name: hand-control
 Description: Description of hand-control

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/arwin/Documents/git/armstrong/src
+CMAKE_SOURCE_DIR = /home/arwin/Documents/git/TIF160/armstrong/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/arwin/Documents/git/armstrong/build
+CMAKE_BINARY_DIR = /home/arwin/Documents/git/TIF160/armstrong/build
 
 # Utility rule file for run_tests_rosserial_test.
 
@@ -63,10 +63,10 @@ rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/build: run_test
 .PHONY : rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/build
 
 rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/clean:
-	cd /home/arwin/Documents/git/armstrong/build/rosserial/rosserial_test && $(CMAKE_COMMAND) -P CMakeFiles/run_tests_rosserial_test.dir/cmake_clean.cmake
+	cd /home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial_test && $(CMAKE_COMMAND) -P CMakeFiles/run_tests_rosserial_test.dir/cmake_clean.cmake
 .PHONY : rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/clean
 
 rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/depend:
-	cd /home/arwin/Documents/git/armstrong/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/arwin/Documents/git/armstrong/src /home/arwin/Documents/git/armstrong/src/rosserial/rosserial_test /home/arwin/Documents/git/armstrong/build /home/arwin/Documents/git/armstrong/build/rosserial/rosserial_test /home/arwin/Documents/git/armstrong/build/rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/arwin/Documents/git/TIF160/armstrong/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/arwin/Documents/git/TIF160/armstrong/src /home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_test /home/arwin/Documents/git/TIF160/armstrong/build /home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial_test /home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : rosserial/rosserial_test/CMakeFiles/run_tests_rosserial_test.dir/depend
 

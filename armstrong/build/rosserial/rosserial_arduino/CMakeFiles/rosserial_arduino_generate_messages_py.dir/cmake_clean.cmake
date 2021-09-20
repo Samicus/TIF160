@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/msg/_Adc.py"
-  "/home/arwin/Documents/git/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/msg/__init__.py"
-  "/home/arwin/Documents/git/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/srv/_Test.py"
-  "/home/arwin/Documents/git/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/srv/__init__.py"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/msg/_Adc.py"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/msg/__init__.py"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/srv/_Test.py"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/python3/dist-packages/rosserial_arduino/srv/__init__.py"
   "CMakeFiles/rosserial_arduino_generate_messages_py"
 )
 

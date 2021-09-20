@@ -1,4 +1,4 @@
-prefix=/home/arwin/Documents/git/armstrong/install
+prefix=/home/arwin/Documents/git/TIF160/armstrong/install
 
 Name: hand-tracking
 Description: Description of hand-tracking

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/include/rosserial_arduino/Adc.h"
-  "/home/arwin/Documents/git/armstrong/devel/include/rosserial_arduino/Test.h"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/include/rosserial_arduino/Adc.h"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/include/rosserial_arduino/Test.h"
   "CMakeFiles/rosserial_arduino_generate_messages_cpp"
 )
 

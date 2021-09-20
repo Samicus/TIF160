@@ -67,14 +67,14 @@ set(rosserial_vex_cortex_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(rosserial_vex_cortex_SOURCE_PREFIX /home/arwin/Documents/git/armstrong/src/rosserial/rosserial_vex_cortex)
-  set(rosserial_vex_cortex_DEVEL_PREFIX /home/arwin/Documents/git/armstrong/devel)
+  set(rosserial_vex_cortex_SOURCE_PREFIX /home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_vex_cortex)
+  set(rosserial_vex_cortex_DEVEL_PREFIX /home/arwin/Documents/git/TIF160/armstrong/devel)
   set(rosserial_vex_cortex_INSTALL_PREFIX "")
   set(rosserial_vex_cortex_PREFIX ${rosserial_vex_cortex_DEVEL_PREFIX})
 else()
   set(rosserial_vex_cortex_SOURCE_PREFIX "")
   set(rosserial_vex_cortex_DEVEL_PREFIX "")
-  set(rosserial_vex_cortex_INSTALL_PREFIX /home/arwin/Documents/git/armstrong/install)
+  set(rosserial_vex_cortex_INSTALL_PREFIX /home/arwin/Documents/git/TIF160/armstrong/install)
   set(rosserial_vex_cortex_PREFIX ${rosserial_vex_cortex_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/arwin/Documents/git/armstrong/install/lib;/home/arwin/Documents/git/armstrong/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/arwin/Documents/git/TIF160/armstrong/install/lib;/home/arwin/Documents/git/TIF160/armstrong/devel/lib;/home/arwin/Documents/git/armstrong/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

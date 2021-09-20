@@ -2,7 +2,7 @@
 DEVELSPACE = 'FALSE' == 'TRUE'
 INSTALLSPACE = 'TRUE' == 'TRUE'
 
-CATKIN_DEVEL_PREFIX = '/home/arwin/Documents/git/armstrong/devel'
+CATKIN_DEVEL_PREFIX = '/home/arwin/Documents/git/TIF160/armstrong/devel'
 
 CATKIN_GLOBAL_BIN_DESTINATION = 'bin'
 CATKIN_GLOBAL_ETC_DESTINATION = 'etc'
@@ -20,14 +20,14 @@ CATKIN_PACKAGE_LIBEXEC_DESTINATION = 'lib/rosserial_arduino'
 CATKIN_PACKAGE_PYTHON_DESTINATION = 'lib/python3/dist-packages/rosserial_arduino'
 CATKIN_PACKAGE_SHARE_DESTINATION = 'share/rosserial_arduino'
 
-CMAKE_BINARY_DIR = '/home/arwin/Documents/git/armstrong/build'
-CMAKE_CURRENT_BINARY_DIR = '/home/arwin/Documents/git/armstrong/build/rosserial/rosserial_arduino'
-CMAKE_CURRENT_SOURCE_DIR = '/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_arduino'
-CMAKE_INSTALL_PREFIX = '/home/arwin/Documents/git/armstrong/install'
-CMAKE_SOURCE_DIR = '/home/arwin/Documents/git/armstrong/src'
+CMAKE_BINARY_DIR = '/home/arwin/Documents/git/TIF160/armstrong/build'
+CMAKE_CURRENT_BINARY_DIR = '/home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial_arduino'
+CMAKE_CURRENT_SOURCE_DIR = '/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_arduino'
+CMAKE_INSTALL_PREFIX = '/home/arwin/Documents/git/TIF160/armstrong/install'
+CMAKE_SOURCE_DIR = '/home/arwin/Documents/git/TIF160/armstrong/src'
 
 PKG_CMAKE_DIR = '${rosserial_arduino_DIR}'
 
 PROJECT_NAME = 'rosserial_arduino'
-PROJECT_BINARY_DIR = '/home/arwin/Documents/git/armstrong/build/rosserial/rosserial_arduino'
-PROJECT_SOURCE_DIR = '/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_arduino'
+PROJECT_BINARY_DIR = '/home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial_arduino'
+PROJECT_SOURCE_DIR = '/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_arduino'

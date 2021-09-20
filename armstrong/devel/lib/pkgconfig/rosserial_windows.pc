@@ -1,4 +1,4 @@
-prefix=/home/arwin/Documents/git/armstrong/devel
+prefix=/home/arwin/Documents/git/TIF160/armstrong/devel
 
 Name: rosserial_windows
 Description: Description of rosserial_windows

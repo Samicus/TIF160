@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/lib/librosserial_server_lookup.pdb"
-  "/home/arwin/Documents/git/armstrong/devel/lib/librosserial_server_lookup.so"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/librosserial_server_lookup.pdb"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/librosserial_server_lookup.so"
   "CMakeFiles/rosserial_server_lookup.dir/src/msg_lookup.cpp.o"
 )
 

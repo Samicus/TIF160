@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/arwin/Documents/git/armstrong/src
+CMAKE_SOURCE_DIR = /home/arwin/Documents/git/TIF160/armstrong/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/arwin/Documents/git/armstrong/build
+CMAKE_BINARY_DIR = /home/arwin/Documents/git/TIF160/armstrong/build
 
 # Utility rule file for _catkin_empty_exported_target.
 
@@ -63,10 +63,10 @@ rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/build: _catkin_
 .PHONY : rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/build
 
 rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/clean:
-	cd /home/arwin/Documents/git/armstrong/build/rosserial/rosserial && $(CMAKE_COMMAND) -P CMakeFiles/_catkin_empty_exported_target.dir/cmake_clean.cmake
+	cd /home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial && $(CMAKE_COMMAND) -P CMakeFiles/_catkin_empty_exported_target.dir/cmake_clean.cmake
 .PHONY : rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/clean
 
 rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/depend:
-	cd /home/arwin/Documents/git/armstrong/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/arwin/Documents/git/armstrong/src /home/arwin/Documents/git/armstrong/src/rosserial/rosserial /home/arwin/Documents/git/armstrong/build /home/arwin/Documents/git/armstrong/build/rosserial/rosserial /home/arwin/Documents/git/armstrong/build/rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/arwin/Documents/git/TIF160/armstrong/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/arwin/Documents/git/TIF160/armstrong/src /home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial /home/arwin/Documents/git/TIF160/armstrong/build /home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial /home/arwin/Documents/git/TIF160/armstrong/build/rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : rosserial/rosserial/CMakeFiles/_catkin_empty_exported_target.dir/depend
 

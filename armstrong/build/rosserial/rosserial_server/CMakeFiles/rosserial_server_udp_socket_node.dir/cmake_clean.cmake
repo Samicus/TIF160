@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/arwin/Documents/git/armstrong/devel/lib/rosserial_server/udp_socket_node"
-  "/home/arwin/Documents/git/armstrong/devel/lib/rosserial_server/udp_socket_node.pdb"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/rosserial_server/udp_socket_node"
+  "/home/arwin/Documents/git/TIF160/armstrong/devel/lib/rosserial_server/udp_socket_node.pdb"
   "CMakeFiles/rosserial_server_udp_socket_node.dir/src/udp_socket_node.cpp.o"
 )
 

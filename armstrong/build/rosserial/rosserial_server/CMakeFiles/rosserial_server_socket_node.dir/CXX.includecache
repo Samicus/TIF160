@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/arwin/Documents/git/armstrong/devel/include/rosserial_msgs/Log.h
+/home/arwin/Documents/git/TIF160/armstrong/devel/include/rosserial_msgs/Log.h
 string
 -
 vector
@@ -22,7 +22,7 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/home/arwin/Documents/git/armstrong/devel/include/rosserial_msgs/TopicInfo.h
+/home/arwin/Documents/git/TIF160/armstrong/devel/include/rosserial_msgs/TopicInfo.h
 string
 -
 vector
@@ -38,7 +38,7 @@ ros/builtin_message_traits.h
 ros/message_operations.h
 -
 
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/async_read_buffer.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/async_read_buffer.h
 boost/bind.hpp
 -
 boost/asio.hpp
@@ -52,13 +52,13 @@ cstdint
 type_traits
 -
 
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/msg_lookup.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/msg_lookup.h
 string
 -
 stdexcept
 -
 
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/session.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/session.h
 map
 -
 boost/bind.hpp
@@ -80,11 +80,11 @@ topic_tools/shape_shifter.h
 std_msgs/Time.h
 -
 rosserial_server/async_read_buffer.h
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/rosserial_server/async_read_buffer.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/rosserial_server/async_read_buffer.h
 rosserial_server/topic_handlers.h
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/rosserial_server/topic_handlers.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/rosserial_server/topic_handlers.h
 
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/tcp_server.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/tcp_server.h
 iostream
 -
 boost/bind.hpp
@@ -94,9 +94,9 @@ boost/asio.hpp
 ros/ros.h
 -
 rosserial_server/session.h
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/rosserial_server/session.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/rosserial_server/session.h
 
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/include/rosserial_server/topic_handlers.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/include/rosserial_server/topic_handlers.h
 ros/ros.h
 -
 rosserial_msgs/TopicInfo.h
@@ -106,7 +106,7 @@ topic_tools/shape_shifter.h
 rosserial_server/msg_lookup.h
 -
 
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/src/socket_node.cpp
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/src/socket_node.cpp
 boost/asio.hpp
 -
 boost/bind.hpp
@@ -116,7 +116,7 @@ boost/thread.hpp
 ros/ros.h
 -
 rosserial_server/tcp_server.h
-/home/arwin/Documents/git/armstrong/src/rosserial/rosserial_server/src/rosserial_server/tcp_server.h
+/home/arwin/Documents/git/TIF160/armstrong/src/rosserial/rosserial_server/src/rosserial_server/tcp_server.h
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h
