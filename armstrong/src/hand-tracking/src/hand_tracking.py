@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+import rospy
+from std_msgs.msg import Float64MultiArray
 import cv2
 import mediapipe as mp
 import time
@@ -82,18 +85,26 @@ def get_fingers_output(lmlist):
 
     
 def main():
+    #init node and publisher
+    pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=10)
+    rospy.init_node('hand-tracking', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+
     pTime = 0
     cTime = 0
     cap = cv2.VideoCapture(0)
     detector = handDetector()
 
-    while True:
+    while not rospy.is_shutdown():
         success, img = cap.read()
         img = detector.findHands(img)
         lmlist = detector.findPosition(img)
         if len(lmlist) != 0:
             thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle = get_fingers_output(lmlist)
             print(f"Thumb angle: {thumb_angle}\nIndex angle: {index_angle}\nMiddle angle: {middle_angle}\nRing angle: {ring_angle}\nPinky angle: {pinky_angle}\n")
+        message_to_publish = [thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle]
+        pub.publish(message_to_publish)
+        rate.sleep()
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)
@@ -106,4 +117,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass
