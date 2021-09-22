@@ -7,4 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/arwin/Documents/git/TIF160/armstrong/build'
+export PWD='/home/arwin/Documents/git/armstrong/build'
