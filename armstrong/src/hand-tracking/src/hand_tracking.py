@@ -86,7 +86,7 @@ def get_fingers_output(lmlist):
 
 def main():
     #init node and publisher
-    pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=10)
+    pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=1)
     rospy.init_node('hand-tracking', anonymous=True)
     rate = rospy.Rate(30) # 30hz
 
