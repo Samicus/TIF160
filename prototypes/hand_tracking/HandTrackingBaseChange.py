@@ -122,14 +122,14 @@ while True:
     # Display values
     v_offset = h // 12
     cv2.putText(img_canvas,str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Pinky: {pinky_val}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Ring: {ring_val}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Middle: {middle_val}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Index: {index_val}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Thumb: {thumb_val}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Pinky: {pinky_val:.5f}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Ring: {ring_val:.5f}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Middle: {middle_val:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Index: {index_val:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Thumb: {thumb_val:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
 
     # Overlay the camera image on the canvas
-    img_scale_factor = 4
+    img_scale_factor = 3
     scaled_width = w // img_scale_factor
     scaled_height = h // img_scale_factor
     scaled_img = cv2.resize(img, (scaled_width, scaled_height))
