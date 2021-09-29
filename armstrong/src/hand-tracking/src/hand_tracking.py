@@ -4,122 +4,178 @@ from std_msgs.msg import Float64MultiArray
 import cv2
 import mediapipe as mp
 import time
-import math
+import numpy as np
+from numpy.core.numeric import zeros_like
+from mediapipe.python.solutions.hands import HandLandmark
 
-class handDetector():
-    def __init__(self, mode = False, maxHands = 2, detectionCon = 0.5, trackCon = 0.5):
-        self.mode = mode
-        self.maxHands = maxHands
-        self.detectionCon = detectionCon
-        self.trackCon = trackCon
+#init node and publisher
+pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=1)
+rospy.init_node('hand-tracking', anonymous=True)
+rate = rospy.Rate(30) # 30hz
 
-        self.mpHands = mp.solutions.hands
-        self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
-        self.mpDraw = mp.solutions.drawing_utils
+message_to_publish = Float64MultiArray()
 
-    def findHands(self,img, draw = True):
-        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        self.results = self.hands.process(imgRGB)
-        # print(results.multi_hand_landmarks)
+cap = cv2.VideoCapture(0)
 
-        if self.results.multi_hand_landmarks:
-            for handLms in self.results.multi_hand_landmarks:
-                if draw:
-                    self.mpDraw.draw_landmarks(img, handLms, self.mpHands.HAND_CONNECTIONS)
-        return img
+mpHands = mp.solutions.hands
+hands = mpHands.Hands(static_image_mode=False,
+                      max_num_hands=1,
+                      min_detection_confidence=0.5,
+                      min_tracking_confidence=0.5)
+mpDraw = mp.solutions.drawing_utils
 
-    def findPosition(self, img, handNo = 0, draw = True):
+# Parameters and constants
+pTime = 0
+cTime = 0
+n_nodes = 21
 
-        lmlist = []
-        if self.results.multi_hand_landmarks:
-            myHand = self.results.multi_hand_landmarks[handNo]
-            for id, lm in enumerate(myHand.landmark):
-                h, w, c = img.shape
-                cx, cy = int(lm.x * w), int(lm.y * h)
-                lmlist.append([id, cx, cy])
-                if draw:
-                    cv2.circle(img, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
-        return lmlist
+# Data structures
+pinky_val = 0.
+ring_val = 0.
+middle_val = 0.
+index_val = 0.
+thumb_val = 0.
+hand_nodes = np.ones((3,21))
 
-def get_distance(tip_x, tip_y, ref_x, ref_y):
-    if (tip_x < ref_x) or (tip_y < ref_y):
-        dist = math.sqrt((tip_x-ref_x)**2 + (tip_y-ref_y)**2)
+def update_max_val(new_val, max_val):
+    if new_val > max_val:
+        return new_val
     else:
-        dist = 0
-    return dist
+        return max_val
 
+# Vectorized functions
+def lms_to_vectors(nodes):
+    for i, val in enumerate(nodes):
+        hand_nodes[:,i] = np.array([val.x * w, val.y * h, 1])
 
-def get_fingers_output(lmlist):
+def translate_vectors(vec):
+    trans_mat = np.array([[1, 0, vec[0]],[0, 1, vec[1]],[0, 0, 1]])
+    np.matmul(trans_mat, hand_nodes, hand_nodes)
 
-    thumb_tip_x = lmlist[4][1]
-    thumb_tip_y = lmlist[4][2]
-    thumb_ref_x = lmlist[1][1]
-    thumb_ref_y = lmlist[1][2]
-    thumb_angle = get_distance(thumb_tip_x, thumb_tip_y, thumb_ref_x, thumb_ref_y) 
+def rotate_vectors(angle):
+    rot_mat = np.array(
+        [[np.cos(angle), -np.sin(angle), 0],
+        [np.sin(angle), np.cos(angle), 0],
+        [0, 0, 1]])
+    np.matmul(rot_mat, hand_nodes, hand_nodes)
 
-    index_tip_x = lmlist[8][1]
-    index_tip_y = lmlist[8][2]
-    index_ref_x = lmlist[5][1]
-    index_ref_y = lmlist[5][2]
-    index_angle = get_distance(index_tip_x, index_tip_y, index_ref_x, index_ref_y)
+def normalize_vectors(draw_length):
+    base_length = hand_nodes[0,HandLandmark.MIDDLE_FINGER_MCP]
+    scale_factor = draw_length/base_length
+    scaling_mat = np.array([
+        [scale_factor,0,0],
+        [0,scale_factor,0],
+        [0,0,1]])
+    np.matmul(scaling_mat, hand_nodes, hand_nodes)
 
-    middle_tip_x = lmlist[12][1]
-    middle_tip_y = lmlist[12][2]
-    middle_ref_x = lmlist[9][1]
-    middle_ref_y = lmlist[9][2]
-    middle_angle = get_distance(middle_tip_x, middle_tip_y, middle_ref_x, middle_ref_y)
+max_thumb_val = 2
+max_index_val = 2
+max_middle_val = 2
+max_ring_val = 2
+max_pinky_val = 2
 
-    ring_tip_x = lmlist[16][1]
-    ring_tip_y = lmlist[16][2]
-    ring_ref_x = lmlist[13][1]
-    ring_ref_y = lmlist[13][2]
-    ring_angle = get_distance(ring_tip_x, ring_tip_y, ring_ref_x, ring_ref_y)
+# ===== MAIN LOOP ======
+while not rospy.is_shutdown():
+    success, img = cap.read()
+    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img_canvas = np.zeros(img.shape, np.uint8)
+    results = hands.process(imgRGB)
+    
+    h, w, c = img_canvas.shape
+    
+    base_offset = np.array([0, h // 2])
+    base_offset_vec = np.array([0, h // 2, 1])
+    clr = (255,255,255)
+    base_vec_draw_length = 300
 
-    pinky_tip_x = lmlist[20][1]
-    pinky_tip_y = lmlist[20][2]
-    pinky_ref_x = lmlist[17][1]
-    pinky_ref_y = lmlist[17][2]
-    pinky_angle = get_distance(pinky_tip_x, pinky_tip_y, pinky_ref_x, pinky_ref_y)
+    if results.multi_hand_landmarks:
+        for handLms in results.multi_hand_landmarks:
+            # Convert to vectors
+            lms_to_vectors(handLms.landmark)
 
-    return thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle
+            # Get the wrist vector
+            wrist_pos_vec = hand_nodes[:,HandLandmark.WRIST]
 
+            # Set the wrist position as origo
+            translate_vectors(-wrist_pos_vec)
 
-def main():
-    #init node and publisher
-    pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=1)
-    rospy.init_node('hand-tracking', anonymous=True)
-    rate = rospy.Rate(30) # 30hz
+            # Get the angle of the wrist-to-middle-knucle vector
+            knuckle_pos_vec = hand_nodes[:,HandLandmark.MIDDLE_FINGER_MCP]
+            angle_vec = np.arctan2(knuckle_pos_vec[1],knuckle_pos_vec[0])
+            
+            # Rotate all nodes around origo
+            rotate_vectors(-angle_vec)
 
-    message_to_publish = Float64MultiArray()
+            # Normalize all
+            normalize_vectors(base_vec_draw_length)
 
-    pTime = 0
-    cTime = 0
-    cap = cv2.VideoCapture(0)
-    detector = handDetector()
+            # Get the screen coordinates
+            translate_vectors(base_offset_vec)
 
-    while not rospy.is_shutdown():
-        success, img = cap.read()
-        img = detector.findHands(img)
-        lmlist = detector.findPosition(img)
-        if len(lmlist) != 0:
-            thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle = get_fingers_output(lmlist)
-            #print(f"Thumb angle: {thumb_angle}\nIndex angle: {index_angle}\nMiddle angle: {middle_angle}\nRing angle: {ring_angle}\nPinky angle: {pinky_angle}\n")
-            message_to_publish.data = [thumb_angle, index_angle, middle_angle, ring_angle, pinky_angle]
+            # Calculate rough values
+            pinky_val = np.linalg.norm(hand_nodes[:,HandLandmark.PINKY_TIP] - hand_nodes[:,HandLandmark.WRIST]) / base_vec_draw_length
+            ring_val = np.linalg.norm(hand_nodes[:,HandLandmark.RING_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
+            middle_val = np.linalg.norm(hand_nodes[:,HandLandmark.MIDDLE_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
+            index_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
+            thumb_val = np.linalg.norm(hand_nodes[:,HandLandmark.THUMB_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
+
+            max_thumb_val = update_max_val(thumb_val, max_thumb_val)
+            max_index_val = update_max_val(index_val, max_index_val)
+            max_middle_val = update_max_val(middle_val, max_middle_val)
+            max_ring_val = update_max_val(ring_val, max_ring_val)
+            max_pinky_val = update_max_val(pinky_val, max_pinky_val)
+
+            scaled_thumb = (thumb_val / max_thumb_val) * 180
+            scaled_index = (index_val / max_index_val) * 180
+            scaled_middle = (middle_val / max_middle_val) * 180
+            scaled_ring = (ring_val / max_ring_val) * 180
+            scaled_pinky = (pinky_val / max_pinky_val) * 180
+
+            # PUBLISH HERE
+            message_to_publish.data = [scaled_thumb, scaled_index, scaled_middle, scaled_ring, scaled_thumb]
             pub.publish(message_to_publish)
             rate.sleep()
 
-        cTime = time.time()
-        fps = 1 / (cTime - pTime)
-        pTime = cTime
+            # Draw on the original image
+            for id, lm in enumerate(handLms.landmark):
+                cx, cy = int(lm.x *w), int(lm.y*h)
+                cv2.circle(img, (cx,cy), 3, (255,0,255), cv2.FILLED)
 
-        cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+            mpDraw.draw_landmarks(img, handLms, mpHands.HAND_CONNECTIONS)
 
-        cv2.imshow("Image", img)
-        cv2.waitKey(1)
+            # Draw points and base line
+            for i in range(n_nodes):
+                vec = hand_nodes[:,i]
+                cv2.circle(img_canvas, (int(vec[0]), int(vec[1])), 3, clr, cv2.FILLED)
 
+            cv2.line(img_canvas, 
+                hand_nodes[0:2,HandLandmark.WRIST].astype(int), 
+                hand_nodes[0:2,HandLandmark.MIDDLE_FINGER_MCP].astype(int), 
+                (255,0,0), 4)
 
-if __name__ == "__main__":
-    try:
-        main()
-    except rospy.ROSInterruptException:
-        pass
+    # Display performance
+    cTime = time.time()
+    fps = 1/(cTime-pTime)
+    pTime = cTime
+    
+    # Display values
+    v_offset = h // 12
+    cv2.putText(img_canvas,str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Pinky: {pinky_val:.5f}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Ring: {ring_val:.5f}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Middle: {middle_val:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Index: {index_val:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Thumb: {thumb_val:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+
+    # Overlay the camera image on the canvas
+    img_scale_factor = 3
+    scaled_width = w // img_scale_factor
+    scaled_height = h // img_scale_factor
+    scaled_img = cv2.resize(img, (scaled_width, scaled_height))
+    imgpos_x = w - scaled_width
+    imgpos_y = h - scaled_height
+    img_canvas[imgpos_y:imgpos_y+scaled_img.shape[0],imgpos_x:imgpos_x+scaled_img.shape[1]] = scaled_img
+
+    # Show the complete canvas
+    cv2.imshow("Image", img_canvas)
+    cv2.waitKey(1)

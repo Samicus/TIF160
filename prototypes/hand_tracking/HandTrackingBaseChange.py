@@ -1,9 +1,19 @@
+#!/usr/bin/env python3
+import rospy
+from std_msgs.msg import Float64MultiArray
 import cv2
 import mediapipe as mp
 import time
 import numpy as np
 from numpy.core.numeric import zeros_like
 from mediapipe.python.solutions.hands import HandLandmark
+
+#init node and publisher
+pub = rospy.Publisher('hand_tracking', Float64MultiArray, queue_size=1)
+rospy.init_node('hand-tracking', anonymous=True)
+rate = rospy.Rate(30) # 30hz
+
+message_to_publish = Float64MultiArray()
 
 cap = cv2.VideoCapture(0)
 
@@ -26,6 +36,12 @@ middle_val = 0.
 index_val = 0.
 thumb_val = 0.
 hand_nodes = np.ones((3,21))
+
+def update_max_val(new_val, max_val):
+    if new_val > max_val:
+        return new_val
+    else:
+        return max_val
 
 # Vectorized functions
 def lms_to_vectors(nodes):
@@ -52,8 +68,14 @@ def normalize_vectors(draw_length):
         [0,0,1]])
     np.matmul(scaling_mat, hand_nodes, hand_nodes)
 
+max_thumb_val = 2
+max_index_val = 2
+max_middle_val = 2
+max_ring_val = 2
+max_pinky_val = 2
+
 # ===== MAIN LOOP ======
-while True:
+while not rospy.is_shutdown():
     success, img = cap.read()
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img_canvas = np.zeros(img.shape, np.uint8)
@@ -96,6 +118,23 @@ while True:
             middle_val = np.linalg.norm(hand_nodes[:,HandLandmark.MIDDLE_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
             index_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
             thumb_val = np.linalg.norm(hand_nodes[:,HandLandmark.THUMB_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
+
+            max_thumb_val = update_max_val(thumb_val, max_thumb_val)
+            max_index_val = update_max_val(index_val, max_index_val)
+            max_middle_val = update_max_val(middle_val, max_middle_val)
+            max_ring_val = update_max_val(ring_val, max_ring_val)
+            max_pinky_val = update_max_val(pinky_val, max_pinky_val)
+
+            scaled_thumb = (pinky_val / max_pinky_val) * 180
+            scaled_index = (pinky_val / max_pinky_val) * 180
+            scaled_middle = (pinky_val / max_pinky_val) * 180
+            scaled_ring = (pinky_val / max_pinky_val) * 180
+            scaled_pinky = (pinky_val / max_pinky_val) * 180
+
+            # PUBLISH HERE
+            message_to_publish.data = [scaled_thumb, scaled_index, scaled_middle, scaled_ring, scaled_thumb]
+            pub.publish(message_to_publish)
+            rate.sleep()
 
             # Draw on the original image
             for id, lm in enumerate(handLms.landmark):
