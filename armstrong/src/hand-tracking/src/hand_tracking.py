@@ -35,6 +35,20 @@ ring_val = 0.
 middle_val = 0.
 index_val = 0.
 thumb_val = 0.
+wrist_val = 0.
+scaled_thumb = 0.
+scaled_index  = 0.
+scaled_middle = 0.
+scaled_ring = 0.
+scaled_pinky = 0.
+scaled_wrist = 0.
+max_pinky_val = 0.01 
+max_ring_val = 0.01
+max_middle_val = 0.01
+max_index_val = 0.01
+max_thumb_val = 0.01
+max_wrist_val = 0.01
+
 hand_nodes = np.ones((3,21))
 
 def update_max_val(new_val, max_val):
@@ -75,7 +89,7 @@ max_ring_val = 2
 max_pinky_val = 2
 
 # ===== MAIN LOOP ======
-while not rospy.is_shutdown():
+while True: #not rospy.is_shutdown():
     success, img = cap.read()
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img_canvas = np.zeros(img.shape, np.uint8)
@@ -118,21 +132,24 @@ while not rospy.is_shutdown():
             middle_val = np.linalg.norm(hand_nodes[:,HandLandmark.MIDDLE_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
             index_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
             thumb_val = np.linalg.norm(hand_nodes[:,HandLandmark.THUMB_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
+            wrist_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_MCP] - hand_nodes[:,HandLandmark.PINKY_MCP]) / base_vec_draw_length
 
             max_thumb_val = update_max_val(thumb_val, max_thumb_val)
             max_index_val = update_max_val(index_val, max_index_val)
             max_middle_val = update_max_val(middle_val, max_middle_val)
             max_ring_val = update_max_val(ring_val, max_ring_val)
             max_pinky_val = update_max_val(pinky_val, max_pinky_val)
+            max_wrist_val = update_max_val(wrist_val, max_wrist_val)
 
             scaled_thumb = (thumb_val / max_thumb_val) * 180
             scaled_index = (index_val / max_index_val) * 180
             scaled_middle = (middle_val / max_middle_val) * 180
             scaled_ring = (ring_val / max_ring_val) * 180
             scaled_pinky = (pinky_val / max_pinky_val) * 180
+            scaled_wrist = ((wrist_val - 0.1) / max_wrist_val) * 180
 
             # PUBLISH HERE
-            message_to_publish.data = [scaled_thumb, scaled_index, scaled_middle, scaled_ring, scaled_thumb]
+            message_to_publish.data = [scaled_thumb, scaled_index, scaled_middle, scaled_ring, scaled_thumb, scaled_wrist]
             pub.publish(message_to_publish)
             rate.sleep()
 
@@ -161,11 +178,12 @@ while not rospy.is_shutdown():
     # Display values
     v_offset = h // 12
     cv2.putText(img_canvas,str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Pinky: {pinky_val:.5f}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Ring: {ring_val:.5f}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Middle: {middle_val:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Index: {index_val:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Thumb: {thumb_val:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Pinky: {scaled_pinky:.5f}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Ring: {scaled_ring:.5f}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Middle: {scaled_middle:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Index: {scaled_index:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Thumb: {scaled_thumb:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Wrist: {scaled_wrist:.5f}", (7 * w//10, 6 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
 
     # Overlay the camera image on the canvas
     img_scale_factor = 3
