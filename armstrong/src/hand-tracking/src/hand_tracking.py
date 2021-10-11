@@ -30,6 +30,8 @@ cTime = 0
 n_nodes = 21
 
 # Data structures
+wrist_capture_pos = np.zeros((2,1))
+arm_angle = 0.
 pinky_val = 0.
 ring_val = 0.
 middle_val = 0.
@@ -108,7 +110,7 @@ while True: #not rospy.is_shutdown():
             lms_to_vectors(handLms.landmark)
 
             # Get the wrist vector
-            wrist_pos_vec = hand_nodes[:,HandLandmark.WRIST]
+            wrist_pos_vec = np.copy(hand_nodes[:,HandLandmark.WRIST])
 
             # Set the wrist position as origo
             translate_vectors(-wrist_pos_vec)
@@ -125,6 +127,16 @@ while True: #not rospy.is_shutdown():
 
             # Get the screen coordinates
             translate_vectors(base_offset_vec)
+
+            # Convert to reference system where y axis is positive upwards (default is positive downwards)
+            wrist_capture_pos = h - wrist_pos_vec
+
+            # The more convoluted but accurate way:
+            #print(wrist_capture_pos)
+            #arm_angle = np.arctan2(wrist_capture_pos[1], wrist_capture_pos[0]) * 180 / pi
+
+            # The easier way: just scale the angle by the y-position vs image height (max is 90 degrees)
+            arm_angle = 180 * wrist_capture_pos[1] / h
 
             # Calculate rough values
             pinky_val = np.linalg.norm(hand_nodes[:,HandLandmark.PINKY_TIP] - hand_nodes[:,HandLandmark.WRIST]) / base_vec_draw_length
@@ -183,7 +195,7 @@ while True: #not rospy.is_shutdown():
     cv2.putText(img_canvas,f"Middle: {scaled_middle:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
     cv2.putText(img_canvas,f"Index: {scaled_index:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
     cv2.putText(img_canvas,f"Thumb: {scaled_thumb:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Wrist: {scaled_wrist:.5f}", (7 * w//10, 6 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Angle:: {arm_angle:.5f}", (7 * w//10, 6 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
 
     # Overlay the camera image on the canvas
     img_scale_factor = 3
