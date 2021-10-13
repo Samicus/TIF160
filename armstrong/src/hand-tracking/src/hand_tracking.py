@@ -53,8 +53,16 @@ max_wrist_val = 0.01
 
 hand_nodes = np.ones((3,21))
 
-def update_max_val(new_val, max_val):
-    if new_val > max_val:
+def update_max_val(new_val, max_val, key):
+
+    THRESHOLDS = {  "thumb":    1.4,
+                    "index":    1.9,
+                    "middle":   2.3,
+                    "ring":     1.9,
+                    "pinky":    1.6,
+                    "wrist":    0.7  }
+
+    if new_val > max_val and new_val < THRESHOLDS[key]:
         return new_val
     else:
         return max_val
@@ -135,33 +143,47 @@ while True: #not rospy.is_shutdown():
             #print(wrist_capture_pos)
             #arm_angle = np.arctan2(wrist_capture_pos[1], wrist_capture_pos[0]) * 180 / pi
 
+            ELBOW_COEFFICIENT = 90
+
             # The easier way: just scale the angle by the y-position vs image height (max is 90 degrees)
-            arm_angle = 180 * wrist_capture_pos[1] / h
+            arm_angle = ELBOW_COEFFICIENT * wrist_capture_pos[1] / h - 10
+
+            # Elbow range
+            arm_angle = max(arm_angle, 30)
+            arm_angle = min(arm_angle, 60)
 
             # Calculate rough values
             pinky_val = np.linalg.norm(hand_nodes[:,HandLandmark.PINKY_TIP] - hand_nodes[:,HandLandmark.WRIST]) / base_vec_draw_length
             ring_val = np.linalg.norm(hand_nodes[:,HandLandmark.RING_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
             middle_val = np.linalg.norm(hand_nodes[:,HandLandmark.MIDDLE_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
             index_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
-            thumb_val = np.linalg.norm(hand_nodes[:,HandLandmark.THUMB_TIP] - hand_nodes[:,HandLandmark.WRIST])  / base_vec_draw_length
-            wrist_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_MCP] - hand_nodes[:,HandLandmark.PINKY_MCP]) / base_vec_draw_length
+            thumb_val = np.linalg.norm(hand_nodes[:,HandLandmark.THUMB_TIP] - hand_nodes[:,HandLandmark.PINKY_MCP])  / base_vec_draw_length
+            wrist_val = np.linalg.norm(hand_nodes[:,HandLandmark.INDEX_FINGER_PIP] - hand_nodes[:,HandLandmark.PINKY_PIP]) / base_vec_draw_length
+            
+            max_thumb_val = update_max_val(thumb_val, max_thumb_val, "thumb")
+            max_index_val = update_max_val(index_val, max_index_val, "index")
+            max_middle_val = update_max_val(middle_val, max_middle_val, "middle")
+            max_ring_val = update_max_val(ring_val, max_ring_val, "ring")
+            max_pinky_val = update_max_val(pinky_val, max_pinky_val, "pinky")
+            max_wrist_val = update_max_val(wrist_val, max_wrist_val, "wrist")
 
-            max_thumb_val = update_max_val(thumb_val, max_thumb_val)
-            max_index_val = update_max_val(index_val, max_index_val)
-            max_middle_val = update_max_val(middle_val, max_middle_val)
-            max_ring_val = update_max_val(ring_val, max_ring_val)
-            max_pinky_val = update_max_val(pinky_val, max_pinky_val)
-            max_wrist_val = update_max_val(wrist_val, max_wrist_val)
+            WRIST_ZERO = 0.4
 
             scaled_thumb = (thumb_val / max_thumb_val) * 180
             scaled_index = (index_val / max_index_val) * 180
             scaled_middle = (middle_val / max_middle_val) * 180
             scaled_ring = (ring_val / max_ring_val) * 180
             scaled_pinky = (pinky_val / max_pinky_val) * 180
-            scaled_wrist = ((wrist_val - 0.1) / max_wrist_val) * 180
+            scaled_wrist = max(0, (wrist_val - WRIST_ZERO) / (max_wrist_val-WRIST_ZERO)) * 180
 
             # PUBLISH HERE
-            message_to_publish.data = [scaled_thumb, scaled_index, scaled_middle, scaled_ring, scaled_thumb, scaled_wrist]
+            message_to_publish.data = [ scaled_thumb, 
+                                        scaled_index, 
+                                        scaled_middle, 
+                                        scaled_ring, 
+                                        scaled_pinky, 
+                                        scaled_wrist,
+                                        arm_angle]
             pub.publish(message_to_publish)
             rate.sleep()
 
@@ -190,12 +212,13 @@ while True: #not rospy.is_shutdown():
     # Display values
     v_offset = h // 12
     cv2.putText(img_canvas,str(int(fps)), (10,70), cv2.FONT_HERSHEY_PLAIN, 3, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Pinky: {scaled_pinky:.5f}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Ring: {scaled_ring:.5f}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Middle: {scaled_middle:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Index: {scaled_index:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Thumb: {scaled_thumb:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
-    cv2.putText(img_canvas,f"Angle:: {arm_angle:.5f}", (7 * w//10, 6 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Pinky: {pinky_val:.5f}", (7 * w//10, h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Ring: {ring_val:.5f}", (7 * w//10, 2 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Middle: {middle_val:.5f}", (7 * w//10, 3 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Index: {index_val:.5f}", (7 * w//10, 4 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Thumb: {thumb_val:.5f}", (7 * w//10, 5 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    #cv2.putText(img_canvas,f"Angle: {arm_angle:.5f}", (7 * w//10, 6 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
+    cv2.putText(img_canvas,f"Wrist: {wrist_val:.5f}", (7 * w//10, 6 * h // 10), cv2.FONT_HERSHEY_PLAIN, 2, (255,0,255), 3)
 
     # Overlay the camera image on the canvas
     img_scale_factor = 3

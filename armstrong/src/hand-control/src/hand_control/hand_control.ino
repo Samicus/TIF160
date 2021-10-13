@@ -4,37 +4,50 @@
 
 ros::NodeHandle  nh;
 
-Servo finger1, finger2, finger3, finger4, finger5, thumb;
+Servo THUMB, INDEX, MIDDLE, RING, PINKY, WRIST, ELBOW;
 
 void servo_cb( const std_msgs::Float64MultiArray& cmd_msg){
-  finger1.write(180 - cmd_msg.data[0]); //set servo angle, should be from 0-180
+  THUMB.write(  180 - cmd_msg.data[0]); //set servo angle, should be from 0-180
   delay(5);
-  finger2.write(180 - cmd_msg.data[1]); //set servo angle, should be from 0-180
+  INDEX.write(  180 - cmd_msg.data[1]); //set servo angle, should be from 0-180
   delay(5);
-  finger3.write(180 - cmd_msg.data[2]); //set servo angle, should be from 0-180
+  MIDDLE.write( 180 - cmd_msg.data[2]); //set servo angle, should be from 0-180
   delay(5);
-  finger4.write(180 - cmd_msg.data[3]); //set servo angle, should be from 0-180
+  RING.write(   180 - cmd_msg.data[3]); //set servo angle, should be from 0-180
   delay(5);
-  finger5.write(180 - cmd_msg.data[4]); //set servo angle, should be from 0-180
+  PINKY.write(  180 - cmd_msg.data[4]); //set servo angle, should be from 0-180
   delay(5);
-  thumb.write(  180 - cmd_msg.data[5]); //set servo angle, should be from 0-180
+  WRIST.write(  180 - cmd_msg.data[5]); //set servo angle, should be from 0-180
+  delay(5);
+  ELBOW.write(cmd_msg.data[6]); //set servo angle, should be from 0-180
 }
 
 
 ros::Subscriber<std_msgs::Float64MultiArray> sub("hand_tracking", servo_cb);
 
 void setup(){
-  //pinMode(13, OUTPUT);
+  pinMode(13, OUTPUT);
 
   nh.initNode();
   nh.subscribe(sub);
   
-  finger1.attach(2);
-  finger2.attach(3);
-  finger3.attach(4);
-  finger4.attach(5);
-  finger5.attach(6);
-  thumb.attach(7);
+  /*
+   * PIN 2: THUMB
+   * PIN 3: INDEX
+   * PIN 4: MIDDLE
+   * PIN 5: RING
+   * PIN 6: PINKY
+   * PIN 7: WRIST
+   * PIN 8: ELBOW
+   */
+  
+  THUMB.attach(2);
+  INDEX.attach(3);
+  MIDDLE.attach(4);
+  RING.attach(5);
+  PINKY.attach(6);
+  WRIST.attach(7);
+  ELBOW.attach(8);
   
 }
 
